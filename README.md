@@ -108,6 +108,18 @@ Jalankan `vercel deploy --prod` dari proyek yang sudah ditautkan. Uji `/api/meta
     └── http.test.js         # Uji integrasi HTTP pada port lokal sementara
 ```
 
+## Aktivasi akun pimpinan
+
+Pendaftaran Manajer, Supervisor, dan Direktur menghasilkan pengajuan. Setelah memverifikasi identitas pendaftar, administrator menjalankan perintah berikut pada lingkungan yang terhubung ke database aplikasi. Ganti nama pengguna dan daftar divisi sesuai penugasan.
+
+```powershell
+npm.cmd run account:add -- --approve --username nama.pengguna --division Direktur
+npm.cmd run account:add -- --approve --username nama.supervisor --division Supervisor --review "Helpdesk,NOC"
+npm.cmd run account:add -- --approve --username nama.manajer --division Manajer --review "Helpdesk,NOC"
+```
+
+Direktur melihat hasil utama, kendala, dan tindak lanjut dari laporan pribadi Manajer dan Supervisor yang sudah dikirim, dengan filter tanggal dan shift. Draf dan laporan yang sedang direvisi dikecualikan.
+
 ## Pemeriksaan
 
 Jalankan `npm.cmd test` untuk menguji alur bisnis pada database uji dan `npm.cmd run build` untuk memeriksa bundel frontend. API tersedia di bawah `/api`. Aplikasi mengirim JSON, menggunakan sesi melalui cookie HTTP-only, dan mengirim versi laporan saat menyimpan atau meninjau agar perubahan bersamaan terdeteksi. Unduhan lampiran diverifikasi melalui sesi pengguna.

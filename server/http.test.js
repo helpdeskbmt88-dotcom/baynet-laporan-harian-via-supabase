@@ -34,12 +34,19 @@ test('Alur HTTP lokal dari draf dan bukti hingga ringkasan Manajer', { timeout: 
   assert.equal((await request('/me')).status,401);
   const meta = await (await request('/meta')).json();
   assert.deepEqual(meta.shifts,['Pagi','Siang']);
-  assert.equal(meta.divisions.length,10);
+  assert.equal(meta.divisions.length,11);
   await t.test('Pendaftaran akun staf dan login', async () => {
-    assert.deepEqual(meta.registrationDivisions, meta.divisions.filter(d => !['Supervisor','Manajer'].includes(d)));
+    assert.deepEqual(meta.registrationDivisions, meta.divisions);
     const account = { username:'Staf.Baru', name:'Staf Baru', division:'Teknisi', password:randomUUID() };
     const register = fields => request('/register','POST','',{...account,...fields});
-    for (const fields of [{division:'Supervisor'},{division:'Manajer'},{password:randomUUID().slice(0,5)},{username:'!'},{name:' '}]) {
+    for (const division of ['Direktur','Supervisor','Manajer']) {
+      const username = 'pending.' + division;
+      const response = await register({division,username,role:'manager'});
+      assert.equal(response.status,201);
+      assert.equal((await response.json()).pending,true);
+      assert.equal((await request('/login','POST','',{username,password:account.password})).status,403);
+    }
+    for (const fields of [{password:randomUUID().slice(0,5)},{username:'!'},{name:' '}]) {
       assert.equal((await register(fields)).status,400);
     }
     assert.equal((await register({role:'manager',reviewDivisions:['Teknisi']})).status,201);

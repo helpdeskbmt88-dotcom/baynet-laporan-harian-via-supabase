@@ -66,7 +66,7 @@ export default function Layout() {
     {open && <button className="side-scrim" onClick={()=>{setOpen(false);menu.current?.focus()}} aria-label="Tutup navigasi" tabIndex={-1}/>}
     <aside className="sidebar" id="main-navigation" ref={side} aria-label="Menu ruang kerja">
       <div className="side-brand"><Link to="/" aria-label="BAYNET, dasbor"><img src="/baynet-logo.png" width="146" height="42" alt="BAYNET"/></Link><button ref={mobileClose} className="mobile-close" onClick={()=>{setOpen(false);menu.current?.focus()}} aria-label="Tutup menu"><PanelLeftClose size={21}/></button></div>
-      <nav className="app-navigation">{sections.map(group=><div className="nav-section" key={group.label}>
+      <nav className="app-navigation">{(user.role === 'director' ? [{label:'Ruang kerja',links:sections[0].links.filter(item => item.to === '/ringkasan')}] : sections).map(group=><div className="nav-section" key={group.label}>
         <h2>{group.label}</h2>
         {group.links.filter(item=>!item.reviewer || user.role !== 'staff').map(({to,title:label,icon:Icon})=><Link key={to} to={to} onClick={()=>setOpen(false)} aria-current={active === to ? 'page' : undefined} className={active === to ? 'selected' : ''}><Icon size={18}/><span>{label}</span>{active === to && <ChevronRight className="active-arrow" size={14}/>}</Link>)}
       </div>)}</nav>

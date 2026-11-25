@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
 import '@fontsource-variable/dm-sans'
 import './style.css'
@@ -46,6 +46,10 @@ function App() {
     {!user ? <Login/> : <>
       <div inert={expired || undefined} aria-hidden={expired || undefined}><Routes>
         <Route element={<Layout/>}>
+          {user.role === 'director' ? <>
+            <Route path="ringkasan" element={<Summary/>}/>
+            <Route path="*" element={<Navigate to="/ringkasan" replace/>}/>
+          </> : <>
           <Route index element={<Dashboard/>}/>
           <Route path="ringkasan" element={<Summary/>}/>
           <Route path="laporan" element={<ReportList/>}/>
@@ -53,6 +57,7 @@ function App() {
           <Route path="laporan/:id/edit" element={<ReportForm/>}/>
           <Route path="laporan/:id" element={<ReportDetail/>}/>
           <Route path="*" element={<section className="boot-screen"><h1>Halaman tidak ditemukan</h1><Link to="/">Kembali ke dasbor</Link></section>}/>
+          </>}
         </Route>
       </Routes></div>
       {expired && <Login expired/>}

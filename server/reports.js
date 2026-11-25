@@ -201,14 +201,16 @@ function addPoint(points,text) {
 }
 export async function summary(user, filters) {
   const date = filters.date || todayWIB();
-  const groups = operational.map(division => ({
+  const director = user.role === 'director';
+  const groups = (director ? ['Manajer','Supervisor'] : operational).map(division => ({
     division, count:0, points:[], obstacles:[], followUps:[], counts:zeroCounts(),
-    restricted: user.role === 'staff' ? user.division !== division : !designated(user,division),
+    restricted: user.role === 'staff' ? user.division !== division : !director && !designated(user,division),
   }));
   const totals = { reports:0,...zeroCounts() };
   for (const row of await filteredRows({date,shift:filters.shift})) {
     const group = groups.find(g => g.division === row.division);
     if (!group || row.status === 'draft') continue;
+    if (director && !['submitted','approved'].includes(row.status)) continue;
     if (user.role === 'staff' && !isOwner(user,row)) continue;
     if (user.role === 'manager' && !['supervisor_approved','approved'].includes(row.status)) continue;
     group.count++;

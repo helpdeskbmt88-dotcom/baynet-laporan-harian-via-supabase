@@ -31,9 +31,9 @@ export default function Login({ expired = false }) {
     setRegistering(true)
   }
 
-  function accountCreated(newUsername) {
+  function accountCreated(newUsername, pending) {
     setUsername(newUsername)
-    setNotice('Akun berhasil dibuat. Masukkan kata sandi Anda untuk masuk.')
+    setNotice(pending ? 'Pengajuan terkirim. Anda dapat masuk setelah administrator menyetujui akun.' : 'Akun berhasil dibuat. Masukkan kata sandi Anda untuk masuk.')
     setRegistering(false)
   }
 
@@ -71,7 +71,7 @@ export default function Login({ expired = false }) {
       <div className="login-inner">
         <img className="auth-logo" src="/baynet-logo.png" alt="BAYNET — PT. Bayu Multimedia Telekomunikasi" width="174" height="50"/>
         <h2>{registering ? 'Buat akun baru' : expired ? 'Masuk kembali' : 'Masuk ke ruang kerja'}</h2>
-        <p className="login-intro">{registering ? 'Daftarkan akun staf untuk mengisi laporan harian divisi Anda.' : expired ? 'Sesi Anda berakhir. Masuk dengan akun yang sama untuk melanjutkan pekerjaan.' : 'Gunakan akun BAYNET Anda untuk mengakses laporan harian.'}</p>
+        <p className="login-intro">{registering ? 'Pilih divisi Anda untuk mendaftar.' : expired ? 'Sesi Anda berakhir. Masuk dengan akun yang sama untuk melanjutkan pekerjaan.' : 'Gunakan akun BAYNET Anda untuk mengakses laporan harian.'}</p>
         {registering ? <RegistrationForm divisions={meta.registrationDivisions} onCreated={accountCreated} onBack={() => setRegistering(false)}/> : <>
         {notice && <div className="auth-notice" role="status"><Check size={17}/>{notice}</div>}
         {error && <div className="app-error" role="alert"><AlertCircle size={17}/>{error}</div>}

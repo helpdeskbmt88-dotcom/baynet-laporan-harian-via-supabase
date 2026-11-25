@@ -8,7 +8,7 @@ process.env.BAYNET_DEMO_PASSWORD = demoPassword;
 delete process.env.SUPABASE_DB_URL;
 delete process.env.VERCEL;
 const { seedDemo } = await import('./seed.js');
-const { addUser, authenticate, makeSession, closeSession, sessionUser } = await import('./accounts.js');
+const { addUser, approveAccount, authenticate, makeSession, closeSession, sessionUser } = await import('./accounts.js');
 const { saveReport, getReport, listReports, summary, submitReport, reviewReport, deleteReport, attachment, addAttachment } = await import('./reports.js');
 await seedDemo();
 const login = async username => await authenticate(username,demoPassword);
@@ -91,6 +91,13 @@ test('Laporan pribadi Supervisor diteruskan ke Manajer dan laporan Manajer langs
   let own = await saveReport(manager,null,form);
   assert.equal((await submitReport(manager,own.id,own.version)).status,'approved');
   assert.equal((await summary(manager,{date})).divisions.length,8);
+  await addUser({username:'direktur',name:'Direktur',division:'Direktur',role:'pending',password:demoPassword});
+  await approveAccount('direktur','Direktur',[]);
+  const director = await login('direktur');
+  const result = await summary(director,{date,shift:'Pagi'});
+  assert.deepEqual(result.divisions.map(g => [g.division,g.count]),[['Manajer',1],['Supervisor',1]]);
+  assert.ok(result.divisions.every(g => g.points.length === 1));
+  assert.equal((await summary(director,{date,shift:'Siang'})).totals.reports,0);
 });
 
 test('Hak meninjau tidak melewati dua tingkat persetujuan untuk laporan divisi operasional', async () => {

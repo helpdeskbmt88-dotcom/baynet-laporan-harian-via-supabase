@@ -216,7 +216,7 @@ function BulletGroup({ title, entries, Icon, tone }) {
   if (!entries?.length) return null;
   return <div className={'bay-bullets ' + tone}><h3><Icon size={15}/>{title}</h3><ul>{entries.map((entry,i)=><li key={i}>{entry}</li>)}</ul></div>;
 }
-function SummaryGroup({ group, query }) {
+function SummaryGroup({ group, query, summaryOnly }) {
   return <article className="bay-panel bay-summary-card">
     <div className="bay-group-title"><DivisionMark division={group.division} /><div><h2>{group.division}</h2><small>{group.count} laporan</small></div>
       {group.restricted && <span className="bay-lock" title="Rincian dibatasi"><LockKeyhole size={16}/></span>}
@@ -227,7 +227,7 @@ function SummaryGroup({ group, query }) {
         <BulletGroup title="Kendala" Icon={CircleAlert} entries={group.obstacles} tone="amber"/>
         <BulletGroup title="Tindak lanjut" Icon={ArrowDownRight} entries={group.followUps} tone="green"/>
         {!group.points.length && !group.obstacles.length && !group.followUps.length && <p className="bay-group-empty">{group.count ? 'Belum ada poin laporan pada tahap ini.' : 'Belum ada laporan untuk periode ini.'}</p>}
-        {group.count > 0 && <Link className="bay-group-link" to={'/laporan?' + query + '&division=' + encodeURIComponent(group.division)}>Lihat laporan <ArrowUpRight size={14}/></Link>}
+        {!summaryOnly && group.count > 0 && <Link className="bay-group-link" to={'/laporan?' + query + '&division=' + encodeURIComponent(group.division)}>Lihat laporan <ArrowUpRight size={14}/></Link>}
       </>}
   </article>;
 }
@@ -244,14 +244,14 @@ export function Summary() {
     <Heading title="Ringkasan harian" filters={filters} summary/>
     {!data ? <LoadState error={error} retry={retry}/> : <>
       <section className="bay-summary-banner"><span className="bay-summary-icon"><Layers3 size={24}/></span><div>
-        <h2>{staff ? 'Ringkasan ' + user.division : 'Ringkasan delapan divisi'}</h2>
-        <p>{user.role === 'manager' ? 'Poin utama dari laporan yang sudah ditinjau Supervisor.' : staff ? 'Hasil, kendala, dan tindak lanjut dari laporan Anda.' : 'Hasil, kendala, dan tindak lanjut dari laporan yang masuk ke tahap Supervisor.'}</p>
+        <h2>{user.role === 'director' ? 'Ringkasan Manajer dan Supervisor' : staff ? 'Ringkasan ' + user.division : 'Ringkasan delapan divisi'}</h2>
+        <p>{user.role === 'director' ? 'Hasil, kendala, dan tindak lanjut dari laporan pimpinan yang sudah dikirim.' : user.role === 'manager' ? 'Poin utama dari laporan yang sudah ditinjau Supervisor.' : staff ? 'Hasil, kendala, dan tindak lanjut dari laporan Anda.' : 'Hasil, kendala, dan tindak lanjut dari laporan yang masuk ke tahap Supervisor.'}</p>
       </div></section>
-      <Metrics scope={data.summary}/>
+      {user.role !== 'director' && <Metrics scope={data.summary}/>}
       <div className="bay-group-heading"><h2>{staff ? 'Poin utama saya' : 'Poin utama per divisi'}</h2>
         {!staff && <label className="bay-shift-control"><SlidersHorizontal size={15}/><select aria-label="Pilih divisi" value={selected} onChange={(e)=>filters.change('division',e.target.value)}><option value="">Semua divisi</option>{groups.map(g=><option key={g.division}>{g.division}</option>)}</select><ChevronDown size={13}/></label>}
       </div>
-      <section className="bay-summary-grid">{visible.map(g=><SummaryGroup key={g.division} group={g} query={filters.query}/>)}</section>
+      <section className="bay-summary-grid">{visible.map(g=><SummaryGroup summaryOnly={user.role === 'director'} key={g.division} group={g} query={filters.query}/>)}</section>
     </>}
   </div>;
 }

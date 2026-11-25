@@ -32,12 +32,13 @@ api.use((req,res,next) => {
   next();
 });
 api.use(express.json({ limit:'4600kb' }));
-api.get('/meta', async (_req,res) => res.json({divisions,registrationDivisions:operational,attachmentDivisions,regularDivisions,shifts,today:todayWIB(),demo:await hasDemo()}));
+api.get('/meta', async (_req,res) => res.json({divisions,registrationDivisions:divisions,attachmentDivisions,regularDivisions,shifts,today:todayWIB(),demo:await hasDemo()}));
 api.post('/register', async (req,res) => {
   const { username, name, division, password } = req.body || {};
-  if (!operational.includes(division)) throw new ApiError(400,'Pilih divisi operasional untuk membuat akun staf.');
-  await addUser({ username, name, division, password, role:'staff' });
-  res.status(201).json({ok:true});
+  if (!divisions.includes(division)) throw new ApiError(400,'Pilih divisi yang tersedia.');
+  const pending = !operational.includes(division);
+  await addUser({ username, name, division, password, role:pending ? 'pending' : 'staff' });
+  res.status(201).json({ok:true,pending});
 });
 const attempts = new Map();
 api.post('/login', async (req,res) => {
@@ -60,6 +61,7 @@ api.use(async (req,_res,next) => {
 });
 api.get('/me', (req,res) => res.json({user:req.user}));
 api.get('/summary', async (req,res) => res.json(await summary(req.user,req.query)));
+api.use((req,_res,next) => next(req.user.role === 'director' ? new ApiError(403,'Akun Direktur memiliki akses ringkasan.') : undefined));
 api.get('/reports', async (req,res) => res.json({reports:await listReports(req.user,req.query)}));
 api.post('/reports', async (req,res) => res.status(201).json({report:await saveReport(req.user,null,req.body || {})}));
 api.param('id', (req,_res,next,id) => {
