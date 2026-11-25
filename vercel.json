@@ -3,7 +3,7 @@
   "framework": "vite",
   "outputDirectory": "dist",
   "functions": {
-    "api/index.js": { "includeFiles": "server/postgres-schema.sql" }
+    "api/index.js": { "includeFiles": "server/{postgres-schema.sql,supabase-ca.crt}" }
   },
   "routes": [
     { "src": "/api(?:/.*)?$", "dest": "/api/index" },
