@@ -1,0 +1,8 @@
+.env*
+data/
+*.sqlite*
+*.log
+node_modules/
+dist/
+.git/
+server/*.test.js
