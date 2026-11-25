@@ -52,6 +52,7 @@ export async function authenticate(username, password) {
   const actual = scryptSync(password, salt, 64);
   if (!timingSafeEqual(actual, Buffer.from(expected, 'hex')) || !row) return null;
   if (row.role === 'pending') throw new ApiError(403,'Pengajuan akun masih menunggu persetujuan administrator.');
+  if (row.role === 'rejected') throw new ApiError(403,'Pengajuan akun ditolak.');
   return publicUser(row);
 }
 

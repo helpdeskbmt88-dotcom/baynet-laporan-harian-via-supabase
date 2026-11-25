@@ -1,4 +1,5 @@
 import express from 'express';
+import { reviewRegistration } from './account-review.js';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { attachmentDivisions, divisions, host, operational, port, regularDivisions, root, shifts, todayWIB } from './config.js';
@@ -32,6 +33,7 @@ api.use((req,res,next) => {
   next();
 });
 api.use(express.json({ limit:'4600kb' }));
+api.post('/registration-review', async (req,res) => res.json(await reviewRegistration(req.body || {})));
 api.get('/meta', async (_req,res) => res.json({divisions,registrationDivisions:divisions,attachmentDivisions,regularDivisions,shifts,today:todayWIB(),demo:await hasDemo()}));
 api.post('/register', async (req,res) => {
   const { username, name, division, password } = req.body || {};

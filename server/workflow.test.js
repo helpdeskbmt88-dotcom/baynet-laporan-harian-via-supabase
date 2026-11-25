@@ -21,6 +21,25 @@ const activity = {activity:'Penanganan tiket',result:'Tiket terselesaikan',obsta
 const form = {date,shift:'Pagi',activities:[activity]};
 const isError = status => error => error.status === status;
 
+test('Tautan persetujuan hanya memproses satu pengajuan dan sekali pakai', async () => {
+  const { createHash,randomBytes } = await import('node:crypto');
+  const { db } = await import('./db.js');
+  const { reviewRegistration } = await import('./account-review.js');
+  for (const action of ['approve','reject']) {
+    const username = 'uji-' + action;
+    const id = await addUser({username,name:'Uji',division:'Supervisor',password:demoPassword,role:'pending'});
+    const token = randomBytes(32).toString('hex');
+    const key = 'review:' + createHash('sha256').update(token).digest('hex');
+    await db.run('INSERT INTO settings(key,value) VALUES(?,?)',key,JSON.stringify({id,expires:Date.now()+60000}));
+    assert.equal((await reviewRegistration({token,action:'inspect'})).user.username,username);
+    await assert.rejects(() => authenticate(username,demoPassword),isError(403));
+    await reviewRegistration({token,action,reviewDivisions:['NOC']});
+    await assert.rejects(() => reviewRegistration({token,action}),isError(410));
+    if (action === 'reject') await assert.rejects(() => authenticate(username,demoPassword),isError(403));
+    else assert.deepEqual((await authenticate(username,demoPassword)).reviewDivisions,['NOC']);
+  }
+});
+
 test('Sesi tersimpan dan dapat diakhiri', async () => {
   assert.equal(await authenticate('helpdesk',randomUUID()),null);
   const token = await makeSession(agent.id);
