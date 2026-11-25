@@ -1,0 +1,175 @@
+.bay-dash {
+  --bay-blue: #244fda;
+  --bay-ink: #19233a;
+  --bay-muted: #637087;
+  --bay-line: #e5e9f0;
+  width: 100%;
+  min-width: 0;
+  color: var(--bay-ink);
+}
+.bay-dash *, .bay-dash *::before, .bay-dash *::after { box-sizing: border-box; }
+.bay-dash h1, .bay-dash h2, .bay-dash h3, .bay-dash p { margin: 0; }
+.bay-dash a { text-decoration: none; }
+.bay-dash button, .bay-dash select, .bay-dash input { font: inherit; }
+.bay-dash button, .bay-dash select { cursor: pointer; }
+.bay-dash :focus-visible { outline: 3px solid #759bff; outline-offset: 3px; }
+.bay-heading, .bay-head-actions, .bay-panel-heading, .bay-group-heading, .bay-group-title, .bay-hero-caption,
+.bay-report-name, .bay-status, .bay-summary-link, .bay-open-report, .bay-empty a, .bay-primary-btn,
+.bay-date-control, .bay-shift-control, .bay-hero-copy a, .bay-group-link { display: flex; align-items: center; }
+.bay-heading { justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 21px; }
+.bay-heading h1 { margin: 0 0 7px; color: #141b2c; font-size: clamp(26px,2.3vw,36px); line-height: 1.12; font-weight: 730; letter-spacing: -.047em; }
+.bay-head-actions { gap: 10px; }
+.bay-primary-btn, .bay-shift-control { border-radius: 8px; font-size: 13px; line-height: 1.2; min-height: 39px; }
+.bay-primary-btn { padding: 0 15px; gap: 7px; background: var(--bay-blue); color: #fff; font-weight: 650; box-shadow: 0 2px 3px #19368617; }
+.bay-primary-btn:hover { background: #143eC4; }
+.bay-shift-control { border: 1px solid #dce2eb; background: white; padding: 0 12px; gap: 6px; color: #41516a; position: relative; }
+.bay-shift-control select { appearance: none; -webkit-appearance: none; color: #36435a; background: transparent; border: 0; border-radius: 8px; font-size: 13px; font-weight: 570; padding: 9px 23px 9px 34px; margin: 0 -23px 0 -34px; z-index: 1; }
+.bay-date-control { display: inline-flex; position: relative; color: #63718a; gap: 7px; font-size: 13px; line-height: 1.45; cursor: pointer; }
+.bay-date-control input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.bay-date-control:focus-within { outline: 2px solid #789dff; outline-offset: 2px; }
+.bay-hero { position: relative; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 98% 130%,#3346cd,transparent 54%), linear-gradient(105deg,#152c89 0%,#1b42bc 53%,#365ee2 100%); color: white; border-radius: 13px; min-height: 173px; display: flex; align-items: center; }
+.bay-hero::before { content: ''; position: absolute; z-index: -1; inset: 0; background: radial-gradient(ellipse at 35% -110%,#5987ff88,transparent 67%), linear-gradient(127deg, transparent 54%,#819afe09 54%,#7596fb0f 65%,transparent 65%); }
+.bay-hero-copy { position: relative; padding: 24px 29px; width: 69%; z-index: 1; }
+.bay-hero-caption { display: inline-flex; gap: 7px; color: #d6e4ff; font-weight: 580; font-size: 11px; line-height: 1.2; letter-spacing: .025em; }
+.bay-hero h2 { font-size: clamp(21px,1.8vw,29px); color: white; line-height: 1.2; font-weight: 665; letter-spacing: -.035em; margin: 7px 0 5px; }
+.bay-hero p { color: #e2eaff; font-size: 13px; line-height: 1.6; }
+.bay-hero-copy a { display: inline-flex; gap: 12px; margin-top: 16px; padding: 8px 12px; border: 1px solid #afc4ff6e; background: #ffffff12; border-radius: 6px; color: #fff; font-size: 12px; font-weight: 600; }
+.bay-hero-copy a:hover { background: #ffffff27; }
+.bay-network-art { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: min(40%, 410px); height: 118%; pointer-events: none; mask-image: linear-gradient(90deg,transparent,#000 13%); }
+.bay-kpis { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin: 17px 0 21px; }
+.bay-kpi, .bay-panel, .bay-summary-banner { background: #fff; border: 1px solid var(--bay-line); border-radius: 11px; box-shadow: 0 2px 5px #202c4e04; }
+.bay-kpi { display: flex; align-items: flex-start; justify-content: space-between; gap: 4px; padding: 17px 17px 15px; min-height: 95px; }
+.bay-kpi > div { order: -1; }
+.bay-kpi-name { display: block; font-size: 12px; color: #647188; font-weight: 560; line-height: 1.45; }
+.bay-kpi strong { display: block; font-weight: 690; line-height: 1.1; letter-spacing: -.055em; font-size: 31px; margin-top: 7px; font-variant-numeric: tabular-nums; color: #151e31; }
+.bay-kpi-icon, .bay-division-mark, .bay-summary-icon { flex: 0 0 auto; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 9px; }
+.bay-kpi-icon.blue, .bay-division-mark.blue, .bay-summary-icon { background: #ecf2ff; color: #285bd2; }
+.bay-kpi-icon.amber, .bay-division-mark.gold { background: #fff5df; color: #a96906; }
+.bay-kpi-icon.green, .bay-division-mark.green { background: #e8f7f0; color: #1e845d; }
+.bay-kpi-icon.red, .bay-division-mark.rose { background: #fff0f1; color: #bc3f4c; }
+.bay-division-mark.teal { background: #e7f6f4; color: #147d75; }
+.bay-kpi-icon.purple, .bay-division-mark.purple { background: #f1edff; color: #7557bf; }
+.bay-division-mark.orange { background: #fff2e9; color: #bd621e; }
+.bay-division-mark.sky { background: #e9f4fd; color: #2c719c; }
+.bay-lower { display: grid; grid-template-columns: minmax(0,1.8fr) minmax(255px,1fr); gap: 16px; align-items: start; }
+.bay-day-feed { min-width: 0; display: grid; gap: 12px; }
+.bay-operational-note { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #fff; color: #647188; border: 1px solid var(--bay-line); border-radius: 10px; }
+.bay-operational-note:hover { border-color: #c4d0e9; }
+.bay-note-symbol { flex: 0 0 auto; display: grid; place-items: center; width: 31px; height: 31px; background: #edf5ff; color: #315bb0; border-radius: 8px; }
+.bay-note-symbol.obstacle { color: #b14847; background: #fff1f0; }
+.bay-note-body { flex: 1; min-width: 0; }
+.bay-note-body strong, .bay-note-body > span { display: block; font-size: 12px; line-height: 1.5; }
+.bay-note-body strong { color: #313f54; font-weight: 660; }
+.bay-note-body > span { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.bay-panel { min-width: 0; overflow: hidden; }
+.bay-panel-heading { padding: 17px 18px; min-height: 56px; justify-content: space-between; gap: 6px; }
+.bay-panel h2,.bay-group-heading h2,.bay-summary-banner h2 { color: #1d273b; font-size: 16px; font-weight: 680; letter-spacing: -.028em; line-height: 1.25; }
+.bay-panel-heading a,.bay-summary-link,.bay-empty a,.bay-group-link { display: inline-flex; align-items: center; gap: 5px; color: #2652c6; font-size: 12px; font-weight: 640; }
+.bay-panel a:hover { color: #153792; }
+.bay-report-scroll { overflow-x: auto; }
+.bay-report-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+.bay-report-table th { border-top: 1px solid #edf0f5; border-bottom: 1px solid #e8ecf2; background: #f8f9fc; color: #697487; font-size: 11px; font-weight: 600; padding: 9px 5px; white-space: nowrap; }
+.bay-report-table td { padding: 12px 5px; border-bottom: 1px solid #edf0f5; }
+.bay-report-table tbody tr:last-child td { border-bottom: 0; }
+.bay-report-table th:first-child, .bay-report-table td:first-child { padding-left: 18px; }
+.bay-report-table td:last-child { padding-right: 12px; }
+.bay-report-table tbody tr:hover { background: #fbfcff; }
+.bay-report-name { gap: 10px; color: #263349; }
+.bay-report-name strong, .bay-report-name small { display: block; }
+.bay-report-name > span:last-child { min-width: 0; }
+.bay-report-name strong { font-weight: 640; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bay-report-name small { color: #6d7b91; font-size: 11px; line-height: 1.5; margin-top: 2px; }
+.bay-shift-name { color: #53627b; font-weight: 525; font-size: 12px; }
+.bay-status { display: inline-flex; gap: 4px; color: #54647e; background: #f0f2f6; border-radius: 20px; padding: 4px 7px; font-size: 10px; font-weight: 630; white-space: nowrap; line-height: 1.3; }
+.bay-status i,.bay-dot-label i { width: 5px; height: 5px; border-radius: 100%; background: currentColor; display: inline-block; flex: 0 0 auto; }
+.bay-status.amber { color: #895b0c; background: #fff6df; } .bay-status.blue { color: #2459b5; background: #edf3ff; }
+.bay-status.green { color: #18734f; background: #e8f7ee; } .bay-status.red { color: #b63b4a; background: #fff0f1; }
+.bay-open-report { color: #8a96a9; justify-content: center; padding: 6px 1px; }
+.bay-ratio { color: var(--bay-blue); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bay-ratio span { color: #7b879c; font-size: 12px; font-weight: 500; }
+.bay-progress-body { padding: 0 18px; }
+.bay-segments { display: flex; gap: 3px; }
+.bay-segments i { flex: 1; height: 5px; border-radius: 2px; background: #e9edf4; }
+.bay-segments i.filled { background: #3d65d9; }
+.bay-progress-body > p { margin-top: 7px; color: #738097; font-size: 11px; }
+.bay-progress-body ul { list-style: none; padding: 0; margin: 13px 0 6px; }
+.bay-progress-body li a, .bay-progress-body li a > span:first-child { display: flex; align-items: center; gap: 8px; }
+.bay-progress-body li a { justify-content: space-between; padding: 6px 0; color: #34425b; font-weight: 560; font-size: 12px; }
+.bay-progress-body li a:hover { color: #244fda; }
+.bay-division-mark.small { width: 25px; height: 25px; border-radius: 6px; }
+.bay-dot-label { display: inline-flex; align-items: center; gap: 5px; color: #778396; font-size: 10px; font-weight: 520; }
+.bay-dot-label.in { color: #27764f; }
+.bay-summary-link { display: flex; justify-content: center; padding: 12px 0 13px; border-top: 1px solid #edf0f5; }
+.bay-empty, .bay-load { display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px; padding: 28px 17px; text-align: center; color: var(--bay-muted); font-size: 13px; line-height: 1.55; }
+.bay-empty > svg { color: #6682b3; }
+.bay-empty p { max-width: 330px; }
+.bay-load { min-height: 230px; background: #fff; border: 1px solid var(--bay-line); border-radius: 12px; }
+.bay-load button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; color: #234ec1; background: #f2f6ff; border: 1px solid #cad7f8; border-radius: 6px; }
+.bay-spin { animation: bay-spin 1s linear infinite; }
+@keyframes bay-spin { to { transform: rotate(360deg); } }
+.bay-work .bay-panel-heading { border-bottom: 1px solid var(--bay-line); }
+.bay-work .bay-panel-heading svg { color: #607da9; }
+.bay-work > div > a { display: flex; align-items: center; justify-content: space-between; padding: 15px 17px; color: #3c4d69; }
+.bay-work > div > a + a { border-top: 1px solid var(--bay-line); }
+.bay-work a strong,.bay-work a small { display: block; }.bay-work a strong { font-size: 13px; }.bay-work small { margin-top: 2px; color: var(--bay-muted); }
+.bay-summary-banner { display: flex; align-items: center; gap: 17px; padding: 20px 22px; background: #f1f5ff; border-color: #dbe5ff; }
+.bay-summary-banner p { font-size: 13px; color: #546580; line-height: 1.5; margin-top: 4px; }
+.bay-summary-icon { height: 44px; width: 44px; background: #e0eaff; }
+.bay-group-heading { justify-content: space-between; gap: 15px; margin: 24px 0 13px; }
+.bay-summary-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; gap: 15px; }
+.bay-summary-card { padding: 18px; }
+.bay-group-title { gap: 10px; }
+.bay-group-title h2 { font-size: 15px; }
+.bay-group-title small { font-size: 11px; color: var(--bay-muted); }
+.bay-lock { margin-left: auto; color: #7c899e; }
+.bay-bullets h3 { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 680; color: #3e4c61; }
+.bay-bullets.blue svg { color: #456bd0; }.bay-bullets.amber svg { color: #ae791c; }.bay-bullets.green svg { color: #258766; }
+.bay-bullets { margin-top: 17px; }
+.bay-bullets ul { margin: 5px 0 0; padding-left: 20px; font-size: 12px; color: #59677d; line-height: 1.6; overflow-wrap: anywhere; }
+.bay-bullets li + li { margin-top: 3px; }
+.bay-group-empty { font-size: 12px; color: var(--bay-muted); padding-top: 16px; line-height: 1.5; }
+.bay-group-link { display: inline-flex; margin-top: 15px; }
+@media(min-width: 1400px) {
+  .bay-kpi { padding: 20px; }
+  .bay-report-table td { padding-top: 13px; padding-bottom: 13px; }
+}
+@media(max-width: 1090px) {
+  .bay-lower { grid-template-columns: minmax(0,1.65fr) minmax(215px,1fr); gap: 12px; }
+  .bay-kpis { gap: 10px; }.bay-kpi { padding: 14px 12px; }
+  .bay-kpi-name { font-size: 11px; }.bay-kpi-icon { width: 29px; height: 29px; border-radius: 7px; }
+  .bay-report-table th:first-child, .bay-report-table td:first-child { padding-left: 12px; }
+  .bay-panel-heading,.bay-progress-body { padding-left: 13px; padding-right: 13px; }
+  .bay-report-name { gap: 7px; }.bay-report-name .bay-division-mark { width: 29px; height: 29px; }
+}
+@media(max-width: 930px) and (min-width: 761px) {
+  .bay-lower { grid-template-columns: 1fr; }
+  .bay-progress-body ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 28px; }
+}
+@media(max-width: 760px) {
+  .bay-lower { grid-template-columns: 1fr; }
+  .bay-kpis { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .bay-hero-copy { padding: 22px; }
+  .bay-progress-body ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 24px; }
+  .bay-kpi { min-height: 84px; }
+}
+@media(max-width: 550px) {
+  .bay-heading { align-items: flex-start; flex-wrap: wrap; gap: 13px; margin-bottom: 15px; }
+  .bay-head-actions { gap: 7px; flex-wrap: wrap; }
+  .bay-hero-copy { width: 76%; padding: 18px; }
+  .bay-hero { min-height: 153px; }
+  .bay-network-art { width: 42%; right: -8%; opacity: .78; height: 90%; }
+  .bay-hero h2 { font-size: 21px; }.bay-hero p { font-size: 12px; }
+  .bay-hero-caption { font-size: 10px; }
+  .bay-kpis { margin: 12px 0 15px; gap: 8px; }
+  .bay-kpi { padding: 12px; min-height: 79px; }
+  .bay-kpi strong { font-size: 26px; margin-top: 5px; }
+  .bay-report-table th,.bay-report-table td { padding-left: 4px; padding-right: 4px; }
+  .bay-report-table td:last-child { padding-right: 3px; }
+  .bay-report-table th:first-child,.bay-report-table td:first-child { padding-left: 9px; }
+  .bay-report-name { gap: 6px; }.bay-report-name strong { font-size: 11px; white-space: normal; }
+  .bay-report-name small { font-size: 10px; }.bay-status { padding: 4px; font-size: 9px; }
+  .bay-progress-body ul { display: block; }
+  .bay-summary-grid { grid-template-columns: 1fr; }
+  .bay-group-heading { gap: 8px; }
+}
+@media(prefers-reduced-motion: reduce) { .bay-spin { animation: none; } }

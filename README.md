@@ -13,13 +13,13 @@ npm.cmd run build
 npm.cmd start
 ```
 
-Buka [Laporan Harian BAYNET](http://127.0.0.1:3001). Pada startup pertama server membuat database, skema, akun demo, dan contoh laporan bertanggal hari itu dan sehari sebelumnya. Startup berikutnya memakai data yang sama. Untuk menjalankan kembali hasil build, cukup jalankan `npm.cmd start`. Tekan Ctrl+C di terminal server untuk menghentikannya.
+Buka [Laporan Harian BAYNET](http://127.0.0.1:3001). Pada startup pertama server membuat database dan skema. Untuk menambahkan akun dan laporan contoh pada database lokal yang masih kosong, isi `BAYNET_DEMO_PASSWORD` di lingkungan server dengan kata sandi pribadi sepanjang 10–200 karakter sebelum memulai server. Startup berikutnya memakai data yang sama. Untuk menjalankan kembali hasil build, cukup jalankan `npm.cmd start`. Tekan Ctrl+C di terminal server untuk menghentikannya.
 
 Untuk mengembangkan frontend dan API bersamaan, jalankan `npm.cmd run dev` dan buka [server pengembangan](http://127.0.0.1:5173). Perintah ini menggunakan port API yang sama dengan `npm.cmd start`, jadi jalankan salah satunya. Untuk terminal terpisah gunakan `npm.cmd run dev:api` dan `npm.cmd run dev:web`. Aset foto, logo, ikon, dan font disajikan secara lokal.
 
 ## Mencoba tiga peran
 
-Pada layar masuk, pilih **Coba akun demo**, pilih akun, lalu klik **Masuk demo**. Untuk login manual, kata sandi contoh adalah `BaynetDemo!2026`.
+Pada layar masuk, klik **Coba akun demo**, tentukan pengguna, lalu klik **Pilih akun**. Masukkan kata sandi yang ditetapkan saat akun demo dibuat dan klik **Masuk**. Pengaturan `BAYNET_DEMO_PASSWORD` berlaku saat pembuatan akun baru.
 
 | Akun contoh | Akses |
 | --- | --- |
