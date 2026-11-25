@@ -8,7 +8,10 @@ const loopback = ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname);
 url.searchParams.delete('sslmode');
 const pool = new pg.Pool({
   connectionString: url.href,
-  ssl: loopback && !process.env.VERCEL ? false : { rejectUnauthorized: true },
+  ssl: loopback && !process.env.VERCEL ? false : {
+    rejectUnauthorized: true,
+    ca: await readFile(new URL('./supabase-ca.crt', import.meta.url), 'utf8'),
+  },
   max: 1,
   connectionTimeoutMillis: 10000,
   allowExitOnIdle: true,
