@@ -1,8 +1,8 @@
 import express from 'express';
-import { reviewRegistration } from './account-review.js';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import { attachmentDivisions, divisions, host, operational, port, regularDivisions, root, shifts, todayWIB } from './config.js';
+import { pathToFileURL } from 'node:url';
+import { attachmentDivisions, divisions, host, operational, port, regularDivisions, financial, root, shifts, todayWIB } from './config.js';
 import { addUser, authenticate, closeSession, makeSession, sessionUser } from './accounts.js';
 import { hasDemo, seedDemo } from './seed.js';
 import { ApiError, addAttachment, attachment, deleteReport, getReport, listReports, reviewReport, saveReport, submitReport, summary } from './reports.js';
@@ -33,14 +33,13 @@ api.use((req,res,next) => {
   next();
 });
 api.use(express.json({ limit:'4600kb' }));
-api.post('/registration-review', async (req,res) => res.json(await reviewRegistration(req.body || {})));
 api.get('/meta', async (_req,res) => res.json({divisions,registrationDivisions:divisions,attachmentDivisions,regularDivisions,shifts,today:todayWIB(),demo:await hasDemo()}));
 api.post('/register', async (req,res) => {
   const { username, name, division, password } = req.body || {};
   if (!divisions.includes(division)) throw new ApiError(400,'Pilih divisi yang tersedia.');
-  const pending = !operational.includes(division);
-  await addUser({ username, name, division, password, role:pending ? 'pending' : 'staff' });
-  res.status(201).json({ok:true,pending});
+  const reviewDivisions = ['Manajer','Supervisor'].includes(division) ? operational.filter(d => !financial.includes(d)) : [];
+  await addUser({ username, name, division, password, reviewDivisions });
+  res.status(201).json({ok:true});
 });
 const attempts = new Map();
 api.post('/login', async (req,res) => {
@@ -100,7 +99,13 @@ app.use((error,_req,res,_next) => {
   res.status(status).json({error:message,...(error.fields ? {fields:error.fields} : {})});
 });
 export default app;
-if (!process.env.VERCEL) {
-  const server = app.listen(port,host,() => console.log('BAYNET berjalan di http://' + host + ':' + server.address().port));
-  server.on('error',error => { console.error('Server gagal dimulai: ' + error.message); process.exitCode = 1; });
+if (!process.env.VERCEL && process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const server = app.listen(port,host,error => {
+    if (error) {
+      console.error('Server gagal dimulai: ' + error.message);
+      process.exitCode = 1;
+      return;
+    }
+    console.log('BAYNET berjalan di http://' + host + ':' + server.address().port);
+  });
 }

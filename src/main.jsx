@@ -6,7 +6,6 @@ import '@fontsource-variable/dm-sans'
 import './style.css'
 import { api, AuthContext } from './shared.jsx'
 import Login from './Login.jsx'
-import RegistrationReview from './RegistrationReview.jsx'
 import Layout from './Layout.jsx'
 import { Dashboard, Summary } from './dashboard/index.jsx'
 import { ReportList, ReportForm, ReportDetail } from './reports/index.jsx'
@@ -65,4 +64,4 @@ function App() {
     </>}
   </AuthContext.Provider>
 }
-createRoot(document.getElementById('root')).render(<BrowserRouter>{location.pathname === '/persetujuan' ? <RegistrationReview/> : <App/>}</BrowserRouter>)
+createRoot(document.getElementById('root')).render(<BrowserRouter><App/></BrowserRouter>)

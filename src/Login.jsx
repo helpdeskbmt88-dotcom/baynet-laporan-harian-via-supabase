@@ -31,9 +31,9 @@ export default function Login({ expired = false }) {
     setRegistering(true)
   }
 
-  function accountCreated(newUsername, pending) {
+  function accountCreated(newUsername) {
     setUsername(newUsername)
-    setNotice(pending ? 'Pengajuan terkirim. Anda dapat masuk setelah administrator menyetujui akun.' : 'Akun berhasil dibuat. Masukkan kata sandi Anda untuk masuk.')
+    setNotice('Akun berhasil dibuat. Masukkan kata sandi Anda untuk masuk.')
     setRegistering(false)
   }
 

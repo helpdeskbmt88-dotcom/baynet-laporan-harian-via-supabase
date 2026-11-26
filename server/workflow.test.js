@@ -8,7 +8,7 @@ process.env.BAYNET_DEMO_PASSWORD = demoPassword;
 delete process.env.SUPABASE_DB_URL;
 delete process.env.VERCEL;
 const { seedDemo } = await import('./seed.js');
-const { addUser, approveAccount, authenticate, makeSession, closeSession, sessionUser } = await import('./accounts.js');
+const { addUser, authenticate, makeSession, closeSession, sessionUser } = await import('./accounts.js');
 const { saveReport, getReport, listReports, summary, submitReport, reviewReport, deleteReport, attachment, addAttachment } = await import('./reports.js');
 await seedDemo();
 const login = async username => await authenticate(username,demoPassword);
@@ -21,24 +21,6 @@ const activity = {activity:'Penanganan tiket',result:'Tiket terselesaikan',obsta
 const form = {date,shift:'Pagi',activities:[activity]};
 const isError = status => error => error.status === status;
 
-test('Tautan persetujuan hanya memproses satu pengajuan dan sekali pakai', async () => {
-  const { createHash,randomBytes } = await import('node:crypto');
-  const { db } = await import('./db.js');
-  const { reviewRegistration } = await import('./account-review.js');
-  for (const action of ['approve','reject']) {
-    const username = 'uji-' + action;
-    const id = await addUser({username,name:'Uji',division:'Supervisor',password:demoPassword,role:'pending'});
-    const token = randomBytes(32).toString('hex');
-    const key = 'review:' + createHash('sha256').update(token).digest('hex');
-    await db.run('INSERT INTO settings(key,value) VALUES(?,?)',key,JSON.stringify({id,expires:Date.now()+60000}));
-    assert.equal((await reviewRegistration({token,action:'inspect'})).user.username,username);
-    await assert.rejects(() => authenticate(username,demoPassword),isError(403));
-    await reviewRegistration({token,action,reviewDivisions:['NOC']});
-    await assert.rejects(() => reviewRegistration({token,action}),isError(410));
-    if (action === 'reject') await assert.rejects(() => authenticate(username,demoPassword),isError(403));
-    else assert.deepEqual((await authenticate(username,demoPassword)).reviewDivisions,['NOC']);
-  }
-});
 
 test('Sesi tersimpan dan dapat diakhiri', async () => {
   assert.equal(await authenticate('helpdesk',randomUUID()),null);
@@ -110,8 +92,7 @@ test('Laporan pribadi Supervisor diteruskan ke Manajer dan laporan Manajer langs
   let own = await saveReport(manager,null,form);
   assert.equal((await submitReport(manager,own.id,own.version)).status,'approved');
   assert.equal((await summary(manager,{date})).divisions.length,8);
-  await addUser({username:'direktur',name:'Direktur',division:'Direktur',role:'pending',password:demoPassword});
-  await approveAccount('direktur','Direktur',[]);
+  await addUser({username:'direktur',name:'Direktur',division:'Direktur',password:demoPassword});
   const director = await login('direktur');
   const result = await summary(director,{date,shift:'Pagi'});
   assert.deepEqual(result.divisions.map(g => [g.division,g.count]),[['Manajer',1],['Supervisor',1]]);

@@ -42,7 +42,7 @@ Untuk mencoba satu siklus penuh, masuk sebagai **NOC**, pilih shift siang pada t
 
 Konfigurasi contoh menggunakan `data/baynet.sqlite`. Pengaturan `HOST=127.0.0.1` membatasi akses ke komputer lokal. Untuk menyiapkan data kerja terpisah, atur `BAYNET_DEMO=0` dan arahkan `BAYNET_DB` di `.env` ke file baru, misalnya `./data/operasional.sqlite`. Pengaturan ini berlaku saat startup dan akun baru memakai database dari konfigurasi yang sama.
 
-Staf dapat memilih **Buat akun baru** di bawah tombol **Masuk**, mengisi nama lengkap, divisi operasional, nama pengguna, dan kata sandi minimal sepuluh karakter. Setelah pendaftaran berhasil, masukkan kata sandi untuk masuk dengan akun baru.
+Pengguna dapat memilih **Buat akun baru** di bawah tombol **Masuk**, mengisi nama lengkap, divisi, nama pengguna, dan kata sandi minimal sepuluh karakter. Setelah pendaftaran berhasil, masukkan kata sandi untuk masuk dengan akun baru.
 
 Akun juga dapat dibuat melalui PowerShell 7. Jalankan sekali per akun dan masukkan kata sandi akun tersebut.
 
@@ -60,7 +60,7 @@ Untuk menyalin data SQLite lokal, hentikan server lebih dahulu lalu salin folder
 
 Proyek menggunakan Vite untuk antarmuka dan Vercel Functions untuk API Express. Pada proyek Supabase, buka **Connect → Transaction pooler** (port 6543). Isi kata sandi database pada URI tersebut dengan karakter khusus yang sudah di-URL-encode. Simpan URI sebagai variabel server **SUPABASE_DB_URL** di lingkungan **Production** pada Vercel. Backend memakai koneksi TLS dan membuat skema privat `baynet` pada akses pertama. Gunakan pengguna database yang memiliki izin membuat skema.
 
-Jalankan `vercel deploy --prod` dari proyek yang sudah ditautkan. Uji `/api/meta`, pendaftaran staf, dan login melalui alamat HTTPS hasil publikasi. Proses ini memulai database kerja kosong. Pemindahan laporan lokal memerlukan migrasi data tersendiri. Untuk membuat akun Supervisor atau Manajer, jalankan `account:add` dengan `SUPABASE_DB_URL` di lingkungan terminal. Gunakan database terpisah untuk deployment Preview.
+Jalankan `vercel deploy --prod` dari proyek yang sudah ditautkan. Uji `/api/meta`, pendaftaran staf, dan login melalui alamat HTTPS hasil publikasi. Proses ini memulai database kerja kosong. Pemindahan laporan lokal memerlukan migrasi data tersendiri. Gunakan database terpisah untuk deployment Preview.
 
 ## Struktur proyek
 
@@ -108,17 +108,9 @@ Jalankan `vercel deploy --prod` dari proyek yang sudah ditautkan. Uji `/api/meta
     └── http.test.js         # Uji integrasi HTTP pada port lokal sementara
 ```
 
-## Aktivasi akun pimpinan
+## Pendaftaran akun pimpinan
 
-Pendaftaran Manajer, Supervisor, dan Direktur menghasilkan pengajuan. Setelah memverifikasi identitas pendaftar, administrator menjalankan perintah berikut pada lingkungan yang terhubung ke database aplikasi. Ganti nama pengguna dan daftar divisi sesuai penugasan.
-
-```powershell
-npm.cmd run account:add -- --approve --username nama.pengguna --division Direktur
-npm.cmd run account:add -- --approve --username nama.supervisor --division Supervisor --review "Helpdesk,NOC"
-npm.cmd run account:add -- --approve --username nama.manajer --division Manajer --review "Helpdesk,NOC"
-```
-
-Direktur melihat hasil utama, kendala, dan tindak lanjut dari laporan pribadi Manajer dan Supervisor yang sudah dikirim, dengan filter tanggal dan shift. Draf dan laporan yang sedang direvisi dikecualikan.
+Akun langsung aktif setelah pendaftaran. Supervisor dan Manajer yang mendaftar lewat formulir mendapat cakupan enam divisi operasional di luar Finance dan Accounting. Direktur melihat ringkasan laporan Manajer dan Supervisor.
 
 ## Pemeriksaan
 

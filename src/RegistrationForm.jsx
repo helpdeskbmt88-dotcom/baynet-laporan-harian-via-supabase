@@ -7,8 +7,6 @@ export default function RegistrationForm({ divisions, onCreated, onBack }) {
   const [busy, setBusy] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const pending = useRef(false)
-  const [division, setDivision] = useState('')
-  const leadership = ['Supervisor','Manajer','Direktur'].includes(division)
 
   async function register(event) {
     event.preventDefault()
@@ -24,8 +22,8 @@ export default function RegistrationForm({ divisions, onCreated, onBack }) {
     pending.current = true
     setBusy(true)
     try {
-      const result = await api('/register', { method: 'POST', body: { name: name.trim(), username: username.trim(), division, password } })
-      onCreated(username.trim(), result.pending)
+      await api('/register', { method: 'POST', body: { name: name.trim(), username: username.trim(), division, password } })
+      onCreated(username.trim())
     } catch (err) {
       setError(err.message)
     } finally {
@@ -40,11 +38,10 @@ export default function RegistrationForm({ divisions, onCreated, onBack }) {
       <label htmlFor="reg-name">Nama lengkap</label>
       <div className="auth-input"><UserRound size={18}/><input id="reg-name" name="name" autoComplete="name" autoFocus required maxLength={100}/></div>
       <label htmlFor="reg-division">Divisi</label>
-      <div className="auth-input"><Building2 size={18}/><select id="reg-division" name="division" value={division} onChange={e => setDivision(e.target.value)} required>
+      <div className="auth-input"><Building2 size={18}/><select id="reg-division" name="division" defaultValue="" required>
         <option value="" disabled>Pilih divisi Anda</option>
         {divisions.map(division => <option key={division}>{division}</option>)}
       </select></div>
-      {leadership && <small className="auth-hint">Administrator akan memverifikasi pengajuan sebelum akun dapat digunakan.</small>}
       <label htmlFor="reg-username">Nama pengguna</label>
       <div className="auth-input"><UserRound size={18}/><input id="reg-username" name="username" autoComplete="username" autoCapitalize="none" spellCheck={false} required minLength={2} maxLength={60} pattern="[A-Za-z0-9._\-]{2,60}" aria-describedby="reg-username-hint"/></div>
       <small className="auth-hint" id="reg-username-hint">Gunakan 2–60 huruf, angka, titik, garis bawah, atau tanda hubung.</small>
@@ -55,7 +52,7 @@ export default function RegistrationForm({ divisions, onCreated, onBack }) {
       <small className="auth-hint" id="reg-password-hint">Gunakan minimal 10 karakter.</small>
       <label htmlFor="reg-confirmation">Konfirmasi kata sandi</label>
       <div className="auth-input"><KeyRound size={18}/><input id="reg-confirmation" name="confirmation" type={showPassword ? 'text' : 'password'} autoComplete="new-password" required minLength={10} maxLength={200}/></div>
-      <button type="submit" className="enter-button" disabled={busy}>{busy && <LoaderCircle size={17} className="app-spin"/>}{leadership ? 'Ajukan akun' : 'Buat akun'}</button>
+      <button type="submit" className="enter-button" disabled={busy}>{busy && <LoaderCircle size={17} className="app-spin"/>}Buat akun</button>
     </form>
     <div className="auth-switch"><button type="button" disabled={busy} onClick={onBack}>Kembali ke halaman masuk</button></div>
   </>
